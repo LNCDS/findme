@@ -1,0 +1,297 @@
+{% extends 'layout.html' %}
+{% block titulo %} Galera {% endblock %}
+{% block contenido %}
+<nav class="barra navbar navbar-transparent bg-transparent fixed-top" id="barra">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="color: #1491ff; " id="Leyenda">Serial Experiments</a>
+    <button class=" navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      <i class="iconhs fa-solid fa-list fa-2xl" style="color: #00ffb3;"></i>
+    </button>
+    <div class="blp offcanvas offcanvas-end text-bg-transparent" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="sh offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel" style="color: #E10600;">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="sh offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="iconh  nav-item">
+            <a href="/load_perfil"><img  style="border-radius: 50%;" width="50px" height="50px" src="{{url_for('static',filename= imguser[1] )}}" alt=""></a><a class="xs" aria-current="page" href="#" >{{current_user.nombreu}}</a>
+          </li>
+          <hr>
+         
+          <li class="iconh nav-item">
+            <a class="xs" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Operaciones</a>
+            <ul class="ds dropdown-menu dropdown-menu-dark">
+              <li><a style="margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModa2">
+                Subir Imagen
+                <i class="fa-solid fa-upload fa-2xl" style="color: #27c4b9;"></i>
+              </a></li>
+              <li><a class="dropdown-item" href="#">Salir</a></li>
+            </ul>
+          </li>
+          <li class="iconh nav-item dropdown">
+            <a class="xs" href="/logout">cerrarsesion</a>
+           
+          </li>
+        </ul>
+        
+        <form class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</nav>
+<!----
+<nav class="barra navbar bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Offcanvas navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a  class="nav-link active" aria-current="page" href="/perfilup">{{current_user.nombreu}}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">cerrarsesion</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><button type="button" class=" btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModa2">
+                  Subir Imagen
+                </button></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex mt-3" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+-->
+
+  <div class="containers" >
+    <div class="mainu" >
+      <div style="margin-bottom: 1%;" >
+        <div id="carouselExample" class="carousel slide">
+      
+
+            <div class="carousel-inner" >
+              
+        
+           
+              {% set xd = namespace(value=0) %}
+              {% for ad in ads %}
+              {% if xd.value == 0 %}
+              {% set xd.value = xd.value + 1 %}
+              <div class="carousel-item {% if xd.value == 1 %}active{% endif %} ">
+                
+                <img height="500px" src="{{url_for('static',filename= ad[0] )}}" class="d-block w-100" alt="...">
+              </div>
+              {% else %}
+              {% set xd.value = xd.value + 1 %}
+              <div class="carousel-item {% if xd.value == 1 %}active{% endif %} ">
+                
+                <img  height="500px" src="{{url_for('static',filename= ad[0] )}}" class="d-block w-100" alt="...">
+                
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+           
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    
+      <div class="row row-cols-0 row-cols-md-5 g-1">
+     {% set data = [] %}
+      {% for img in img %}
+      {% set img_data = {'title': img[2], 'description': img[3], 'date': img[4]} %}
+      {% set _ = data.append(img_data) %}
+
+        <div class="col">
+        <div class="cards card h-100">
+         <a data-bs-toggle="modal" data-bs-target="#Imagen{{loop.index0}}">
+          <img src="{{url_for('static',filename= img[1] )}}" class="   card-img-top" alt="...">
+         </a> 
+          <div class="cards-bodys card-body">
+            <h5 class="xs card-title"> {{img[2]}} </h5>
+            <p class="xs descripcionimg  card-text"> {{img[3]}} </p>
+            <a href="/guardar_imagenes/{{img[0]}}">
+                guardar 
+          </a>
+            
+          </div>
+        </div>
+       </div>
+
+
+        <div  class=" modal fade" id="Imagen{{ loop.index0 }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div style="width: 1000px;" class="modalC  modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">{{ data[loop.index0]['title'] }}</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div style="display: flex; width: 100;" class="bodysigninu  modal-body">
+              <div style="width: 60%; margin-right: 5%;">
+                <img  src="{{url_for('static',filename= img[1] )}}" class="   card-img-top" alt="...">
+
+              </div>
+              <div style="width: 90%; height: 200px;" class="datpsimg" >
+                <p class="xs"> descripcion: </p>
+                <p style="width: 100%;" class="xs card-text"> {{ data[loop.index0]['description'] }} </p>
+                <p class="xs" > {{ data[loop.index0]['date'] }}  </p>
+
+              </div>
+              <div style="position: absolute; bottom: 10px; right: 8%; width: 50%; " class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                     Comentarios
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div style=" height: 100px;" class="overflow-auto">
+                        <div class="card mb-3" style="width: 18rem;">
+                          <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                          </div>
+                        </div>
+                        
+                        <div class="card text-center mb-3" style="width: 18rem;">
+                          <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                          </div>
+                        </div>
+                        
+                        <div class="card text-end" style="width: 18rem;">
+                          <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="datuser" >
+                <div class="datuser-img" >
+                  <img src="" alt="">
+                </div>
+                <div class="datuser-username" >
+
+                </div>
+              </div>
+             
+             
+            </div>
+           
+           
+          </div>
+        </div>
+       </div>
+  
+    {% endfor %}
+
+
+    
+
+    </div>
+
+
+
+
+
+<!-- modales -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModa2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="form-img-content  modal-content">
+      <div class=" form-img-header modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva publicacion</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="form-img-body  modal-body">
+        {% set idf = 2 %}
+        <form class="form-img" action="/Uimg/{{idf}}" method="POST" class="mb-3"  enctype="multipart/form-data">
+          <div class="form-img-img">
+            <img src="" alt="">
+          </div>
+         
+
+          <div class="form-img-line">
+            <label class="form-img-text"> titulo  </label>
+            <input class="form-img-input" type="text" name="titulo">
+          </div>
+          
+          <div class="form-img-line">
+            <label class="form-img-text" for=""> descripcion </label>
+            <input class="form-img-input" type="text" name="descripcion">
+          </div>
+          
+          <div class="form-img-line">
+            <input class="" accept="image/*" required class="form-control" type="file" name="imagen" id="formFile">
+
+          </div>  
+          
+          
+         
+          <input class="verification-ocult" type="number" value="2" name="verification">
+          
+
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal perfil -->
+
+
+
+{% endblock %}

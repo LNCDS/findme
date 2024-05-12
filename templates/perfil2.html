@@ -1,0 +1,105 @@
+{% extends 'layout.html' %}
+{% block titulo %} perfil {% endblock %} 
+{% block contenido %}
+<nav id="navbar-example2" class="navbar bg-body-tertiary px-3 mb-3">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="#scrollspyHeading1">First</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#scrollspyHeading2">Second</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#scrollspyHeading3">Third</a></li>
+        <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#scrollspyHeading5">Fifth</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<div class="main" >
+  <div class="container" >
+    <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">
+      <div class="perfil" >
+        <h4 id="scrollspyHeading1"> perfil </h4>
+        <p>{{current_user.nombreu }}</p>
+        <img width="20%" src="{{url_for('static',filename=  imgu[0])}}" alt="">
+        <button data-bs-toggle="modal" data-bs-target="#edit_name" > editar nombre </button>
+        <button data-bs-toggle="modal" data-bs-target="#update_img_user" > editar foto de perfil </button>
+        <p>...</p>
+       
+      </div>
+   
+      <div class="perfil" >
+       
+        <h4 id="scrollspyHeading2"> imagenes guardadas </h4>
+        
+      </div>
+    </div>
+</div>
+
+<!-- Update img -->
+<div class="modal fade" id="update_img_user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editor</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      
+        <form action="/update_img_user" method="post" class="formularios"enctype="multipart/form-data">
+          <div class="mb-3" >
+            <label for="formFile" class="xs form-label">Imagen</label>
+            <input   accept="image/*" required class="form-control"  type="file" name="file" id="formFile">
+          </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save chanes</button>
+        </form>
+      
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+   
+    </div>
+  </div>
+</div>
+<!--Update name  -->
+<div class="modal fade" id="edit_name" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar nombre</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/edit_name" method="post" class="formularios"enctype="multipart/form-data">
+        
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
+            <input type="text" name="nombreu" value="{{current_user.nombreu}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">Recuerda siempre usar un nombre de usuario valido.</div>
+          </div>
+
+                
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save chanes</button>
+        </form>
+      
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+   
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

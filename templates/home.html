@@ -1,0 +1,212 @@
+{% extends 'layout.html' %}
+{% block titulo %} Laingod {% endblock %}
+{% block contenido %} 
+
+
+  <nav class="barra navbar navbar-transparent bg-transparent fixed-top" id="barra">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: #1491ff; " id="Leyenda">Serial Experiments</a>
+      <button class=" navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <i class="iconhs fa-solid fa-list fa-2xl" style="color: #00ffb3;"></i>
+      </button>
+      <div class="blp offcanvas offcanvas-end text-bg-transparent" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="sh offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel" style="color: #E10600;">Menu</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="sh offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="iconh  nav-item">
+              <a data-bs-toggle="modal" data-bs-target="#Registro"><i class="iconhs fa-regular fa-address-card fa-2xl" style="color: #00ffb3;"></i></a><a class="xs" aria-current="page" href="#" >Registrarse</a>
+            </li>
+            <li class="iconh nav-item dropdown">
+              <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="iconhs fa-solid fa-list fa-2xl" style="color: #00ffb3;"></i></a>
+              
+              <a class="xs" >
+                Redes
+              </a>
+              <ul class="ds dropdown-menu dropdown-menu-dark">
+                <li class="iconr"> <a href="https://www.facebook.com/lainchikita"><img class="envisign" src="{{url_for('static',filename='img/icon-f.png')}}" alt="" href="" width="50px"></a><a class="xs" aria-current="page" href="#" >facebook</a></li>
+                <li class="iconr" ><a ><img class="envisign" src="{{url_for('static',filename='img/icon-twitter.png')}}" alt=""></a><a class="xs">twitter</a></li>
+                <li class="iconr" ><a ><img class="envisign" src="{{url_for('static',filename='img/icon-yt.png')}}" alt=""></a><a class="xs" aria-current="page" href="#" >Youtube</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Salir</a></li>
+              </ul>
+            </li>
+            
+          </ul>
+          <form class="d-flex mt-3" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+          <div id="carouselExampleRide" class="caruselhome  carousel slide" data-bs-ride="true">
+            
+            <div class="carousel-inner">
+              {% set xd = namespace(value=0) %}
+              {% for img in img %}
+              {% if xd.value == 0 %}
+              {% set xd.value = xd.value + 1 %}
+              <div class="carousel-item {% if xd.value == 1 %}active{% endif %} ">
+                
+                <img src="{{url_for('static',filename= img[1] )}}" class="d-block w-100" alt="...">
+                
+              </div>
+              {% else %}
+              {% set xd.value = xd.value + 1 %}
+              <div class="carousel-item {% if xd.value == 1 %}active{% endif %} ">
+                
+                <img src="{{url_for('static',filename= img[1] )}}" class="d-block w-100" alt="...">
+                
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+            
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+  <div class="main">
+    <!-- Content here -->
+    
+    <!-- Modal -->
+<div class="modal fade" id="Sesion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modalC modal-content">
+      <div class="modal-header">
+        
+        <h1 class="modal-title fs-5" id="exampleModalLabel" style="font-family: 'Crimson Text', serif;"  >Inicio de sesion</h1>
+       
+        <img src="{{url_for('static',filename='img/icon-wired.png')}}" alt="" width="50px">
+      </div>
+      <div class="bodysignin modal-body">
+
+        <form action="/login" method="post">
+      
+          <div class="namesign mb-3">
+         
+            <label for="exampleInputEmail1" class="textsign form-label"  >Email address</label>
+            <input required type="email" name="correou" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="textsign form-text">We'll never share your email with anyone else.</div>
+          </div>
+        
+          <div class="namesign mb-3">
+            <label for="exampleInputPassword1" class="textsign form-label">Password</label>
+            <input required type="password" name="claveu" class="entersign form-control" id="exampleInputPassword1">
+          </div>
+          <div class="imguser">
+            <img width="70%" src="" alt="">
+            
+
+          </div>
+          {% with mensajes = get_flashed_messages() %}
+      {% if mensajes %}
+        {% for m in mensajes %}
+        <div class="alerth alert alert-warning alert-dismissible fade show" role="alert">
+            {{m}}
+        </div>   
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#Sesion').modal('show');
+  });
+</script>    
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+       
+      </div>
+      <div class="modal-footer">
+       
+        
+        <button type="submit" class="envisign"></button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div  class="registro">
+      
+ 
+      <button  type="button" class="bt" data-bs-toggle="modal" data-bs-target="#Sesion">
+       
+      </button>
+      
+</div>
+
+      
+     
+</div>
+<!-- modal signin -->
+<div class="modal fade" id="Registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modalC  modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="bodysignin  modal-body">
+       
+        <form action="/signin" method="post" class="formularios" enctype="multipart/form-data">
+          <div class="mb-3" >
+            <label for="formFile" class="xs form-label">Imagen</label>
+            <input  accept="image/*" required class="form-control" type="file" name="imagenuser" id="formFile">
+          </div>
+          <div class=" mb-3">
+            <label for="exampleInputEmail1" class=" textsign form-label">Nombre de usuario</label>
+            <input required type="text" name="Nombreu" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="textsign form-text">Recuerda siempre usar un nombre de usuario valido.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="textsign form-label">Correo electronico</label>
+            <input required type="email" name="correou" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="textsign  form-text">Utiliza un correo electronico valido</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="textsign form-label">contraseña</label>
+            <input required type="password" name="claveu" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="textsign form-text">Utiliza un numero de telefono valido</div>
+          </div>
+          
+         
+          <!-----
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">FEcha de nacimiento</label>
+            <input type="date" class="form-control" id="exampleInputPassword1">
+          </div>
+
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+        -->
+          
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

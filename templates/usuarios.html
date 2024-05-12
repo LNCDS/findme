@@ -1,0 +1,289 @@
+{% extends 'layout.html' %}
+{% block titulo %} Laingod {% endblock %}
+{% block contenido %} 
+
+
+  <nav class="barra navbar navbar-transparent bg-transparent fixed-top" id="barra">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: red; " id="Leyenda">Serial Experiments</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <i class="iconhs fa-solid fa-list fa-2xl" style="color: #00ffb3;"></i>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="xs active" href="/logout">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="xs" href="">Inicio</a>
+            </li>
+            <li class="xs nav-item dropdown">
+              <a class="xs" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                operaciones
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="/sUsuario">usuarios
+                   
+                </a></li>
+                <li><a class="dropdown-item" href="/listimgs">Publicaciones</a></li>
+                <li><a class="dropdown-item" href="/load_ads">ads</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+               
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#Registro2">Mi usuario</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex mt-3" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {% with mensajes = get_flashed_messages() %}
+  {% if mensajes %}
+    {% for m in mensajes %}
+    <div class="alerth alert alert-warning alert-dismissible fade show" role="alert">
+        {{m}}  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>   
+        
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+<div class="containerzz">
+  <div class="scroll">
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">correo</th>
+          <th scope="col">perfil</th>
+          <th scope="col"> Foto </th>
+        <th scope="col">Edicion   </th>
+          
+      </thead>
+      <tbody>
+        
+          {% for clave, u in usuarios.items() %}
+        <tr>
+          <th scope="row"> {{ u[0][0]}}</th>
+          <td>{{u[0][1]}}</td>
+          <td>{{u[0][2]}}</td>
+          <td>{{u[0][7]}}</td>
+          <td><img src="{{url_for('static',filename=  u[0][7])}}" width="50px" ></td>
+          <td> 
+            <button type="button " class=" edits btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit{{u[0][0]}}">
+              
+            </button> 
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#del{{u[0][0]}}">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+
+        <!---Modal Update-->
+        <div class="modal fade" id="edit{{u[0][0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editor</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {% if u[0][7] == none %}
+                  {%set hola='1'%}
+                {% else %}
+                  {%set hola='0'%}
+                  
+                
+                {%endif%}
+
+                <form action="/sUsuario/{{u[0][0]}}/{{hola}}" method="post" class="formularios"enctype="multipart/form-data">
+                  <div class="mb-3" >
+                    <label for="formFile" class="xs form-label">Imagen</label>
+                    <input   accept="image/*" required class="form-control"  type="file" name="imagenuser" id="formFile">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
+                    <input type="text" name="Nombreu" value="{{u[0][1]}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">Recuerda siempre usar un nombre de usuario valido.</div>
+                  </div>
+        
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">contraseña</label>
+                    <input type="password" name="claveu"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">Utiliza un numero de telefono valido</div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
+                    <input type="email" name="correou" value="{{u[0][2]}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">Utiliza un correo electronico valido</div>
+                  </div>
+                 
+                  <div class="col-12">
+                    <label for="exampleInputPassword1" class="form-label">Estatus</label>
+                    <select class="form-select form-select-lg mb-3" aria-label="Large select example" name="perfilu">
+                      <option selected value="{{u[0][4]}}" >{{u[0][4]}}</option>
+                      <option value="A">admin</option>
+                      <option value="C">usuario</option>
+                    </select>                    
+                  </div>
+        
+                  
+                
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save chanes</button>
+                </form>
+              
+              </div>
+              <div class="modal-footer">
+                
+              </div>
+           
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-- Modal delete -->
+        <div class="modal fade" id="del{{u[0][0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/dUsuario/{{u[0][0]}}" method="post">
+                <div class="modal-body">
+                  Seguro que deseas eliminar al pendejo de {{u[0][1]}},  bebe?
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="summit" class="btn btn-primary">Si, chingue su madre</button>
+                </div>
+              </form>
+
+              
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+      
+        
+        
+      </tbody>
+    </table>
+
+
+  </div>
+ 
+        
+      <div class="modal fade" id="Registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modalC  modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Registro</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div class="bodysignin  modal-body">
+             
+              <form action="/newuser" method="post" class="formularios" enctype="multipart/form-data">
+                <div class="mb-3" >
+                  <label for="formFile" class="xs form-label">Imagen</label>
+                  <input  accept="image/*" required class="form-control" type="file" name="imagenuser" id="formFile">
+                </div>
+                <div class=" mb-3">
+                  <label for="exampleInputEmail1" class=" textsign form-label">Nombre de usuario</label>
+                  <input required type="text" name="Nombreu" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="textsign form-text">Recuerda siempre usar un nombre de usuario valido.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="textsign form-label">Correo electronico</label>
+                  <input required type="email" name="correou" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="textsign  form-text">Utiliza un correo electronico valido</div>
+                </div>
+      
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="textsign form-label">contraseña</label>
+                  <input required type="password" name="claveu" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="textsign form-text">Utiliza un numero de telefono valido</div>
+                </div>
+                
+               
+                <!-----
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">FEcha de nacimiento</label>
+                  <input type="date" class="form-control" id="exampleInputPassword1">
+                </div>
+      
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+              -->
+                
+             
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="NewU" data-bs-toggle="modal" data-bs-target="#Registro">Nuevo Usuario</button>
+</div>
+
+<div class="modal fade" id="Registro2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modalC  modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="bodysignin  modal-body">
+       
+        <form action="/editadmin/{{current_user.id}}" method="post" class="formularios" enctype="multipart/form-data">
+          <div class="mb-3" >
+            <label for="formFile" class="xs form-label">Imagen</label>
+            <input  accept="image/*" required class="form-control" type="file" name="imagenuser" id="formFile">
+          </div>
+          <div class=" mb-3">
+            <label for="exampleInputEmail1" class=" textsign form-label">{{current_user.nombreu}}</label>
+            <input required type="text" name="Nombreu" value="{{current_user.nombreu}}" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="textsign form-text">Recuerda siempre usar un nombre de usuario valido.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="textsign form-label">Correo electronico</label>
+            <input required type="email" name="correou" value="{{current_user.correou}}" class="entersign form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="textsign  form-text">Utiliza un correo electronico valido</div>
+          </div>
+
+       
+          
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
